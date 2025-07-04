@@ -1,6 +1,5 @@
-package com.transparentaccountsapp.ui.theme
+package com.transparentaccountsapp.core.presentation.other
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

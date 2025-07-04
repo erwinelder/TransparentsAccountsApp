@@ -1,4 +1,4 @@
-package com.transparentaccountsapp.ui.theme
+package com.transparentaccountsapp.core.presentation.other
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
