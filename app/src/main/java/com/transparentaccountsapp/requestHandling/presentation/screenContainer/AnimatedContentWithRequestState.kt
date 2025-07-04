@@ -3,7 +3,6 @@ package com.transparentaccountsapp.requestHandling.presentation.screenContainer
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,23 +16,23 @@ import com.transparentaccountsapp.requestHandling.presentation.model.ResultState
 import com.transparentaccountsapp.requestHandling.presentation.model.ResultState.ErrorState
 
 @Composable
-fun <T> AnimatedScreenWithRequestState(
+fun <T> AnimatedContentWithRequestState(
+    modifier: Modifier = Modifier,
     screenPadding: PaddingValues = PaddingValues(),
     requestDataState: RequestState<DataState<T>, ErrorState>,
     errorAction: () -> Unit,
-    screen: @Composable (T) -> Unit
+    content: @Composable (T) -> Unit
 ) {
     SetBackHandler(enabled = requestDataState is RequestState.Loading) {}
 
     AnimatedContent(
         targetState = requestDataState,
         modifier = Modifier
-            .fillMaxSize()
             .padding(screenPadding)
     ) { dataState ->
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = modifier
         ) {
             when (dataState) {
                 is RequestState.Loading -> {
@@ -42,7 +41,7 @@ fun <T> AnimatedScreenWithRequestState(
                     )
                 }
                 is RequestState.Result -> {
-                    screen(dataState.resultState.data)
+                    content(dataState.resultState.data)
                 }
                 is RequestState.Error -> {
                     ResultErrorComponent(

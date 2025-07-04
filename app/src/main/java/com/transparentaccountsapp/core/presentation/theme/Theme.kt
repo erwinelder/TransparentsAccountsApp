@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.transparentaccountsapp.core.domain.AppTheme
 import com.transparentaccountsapp.core.domain.WindowType
 
+val LocalAppTheme = compositionLocalOf { AppTheme.Light }
 val LocalColors = compositionLocalOf<ColorPalette> { ColorPalette.Light }
 val LocalWindowType = compositionLocalOf { WindowType.Compact }
 
@@ -23,14 +24,11 @@ fun TransparentAccountsAppTheme(
     appTheme: AppTheme? = null,
     content: @Composable () -> Unit
 ) {
-    val colorPalette = if (appTheme == null) {
-        val isSystemInDarkTheme = isSystemInDarkTheme()
-        if (isSystemInDarkTheme) ColorPalette.Dark else ColorPalette.Light
-    } else {
-        when (appTheme) {
-            AppTheme.Light -> ColorPalette.Light
-            AppTheme.Dark -> ColorPalette.Dark
-        }
+    val appTheme = appTheme ?: if (isSystemInDarkTheme()) AppTheme.Dark else AppTheme.Light
+
+    val colorPalette = when (appTheme) {
+        AppTheme.Light -> ColorPalette.Light
+        AppTheme.Dark -> ColorPalette.Dark
     }
 
     val windowType = when {
@@ -40,6 +38,7 @@ fun TransparentAccountsAppTheme(
     }
 
     CompositionLocalProvider(
+        LocalAppTheme provides appTheme,
         LocalColors provides colorPalette,
         LocalWindowType provides windowType,
         LocalRippleConfiguration provides null
@@ -50,6 +49,11 @@ fun TransparentAccountsAppTheme(
         )
     }
 }
+
+val CurrAppTheme: AppTheme
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalAppTheme.current
 
 val AppColors: ColorPalette
     @Composable

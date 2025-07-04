@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.transparentaccountsapp.core.domain.FilledWidthByScreenType
-import com.transparentaccountsapp.core.presentation.button.SmallSecondaryButton
+import com.transparentaccountsapp.core.presentation.component.button.SmallSecondaryButton
 import com.transparentaccountsapp.core.presentation.theme.AppColors
 import com.transparentaccountsapp.core.presentation.theme.CurrWindowType
 import com.transparentaccountsapp.requestHandling.presentation.model.ResultState

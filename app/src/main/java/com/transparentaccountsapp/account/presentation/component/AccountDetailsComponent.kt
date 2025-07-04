@@ -28,18 +28,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.transparentaccountsapp.R
-import com.transparentaccountsapp.account.presentation.model.AccountUiState
+import com.transparentaccountsapp.account.presentation.model.AccountDetailsUiState
 import com.transparentaccountsapp.core.domain.AppTheme
 import com.transparentaccountsapp.core.domain.FilledWidthByScreenType
-import com.transparentaccountsapp.core.presentation.modifier.bounceClickEffect
 import com.transparentaccountsapp.core.presentation.preview.PreviewContainer
 import com.transparentaccountsapp.core.presentation.theme.CurrAppTheme
 import com.transparentaccountsapp.core.presentation.theme.CurrWindowType
 
 @Composable
-fun AccountComponent(
-    uiState: AccountUiState,
-    onClick: (String) -> Unit
+fun AccountDetailsComponent(
+    uiState: AccountDetailsUiState
 ) {
     val appTheme = CurrAppTheme
     val accountColor by remember {
@@ -62,9 +60,6 @@ fun AccountComponent(
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
-            .bounceClickEffect {
-                onClick(uiState.number)
-            }
             .clip(RoundedCornerShape(30.dp))
             .background(
                 brush = Brush.linearGradient(
@@ -74,7 +69,7 @@ fun AccountComponent(
                 )
             )
             .fillMaxWidth(FilledWidthByScreenType(.9f, .6f, .42f).getByType(CurrWindowType))
-            .padding(horizontal = 20.dp, vertical = 16.dp)
+            .padding(horizontal = 22.dp, vertical = 18.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.End,
@@ -82,7 +77,7 @@ fun AccountComponent(
         ) {
             Text(
                 text = uiState.name,
-                fontSize = 18.sp,
+                fontSize = 20.sp,
                 color = onAccountColor,
                 fontWeight = FontWeight.ExtraLight,
                 maxLines = 1,
@@ -90,11 +85,21 @@ fun AccountComponent(
             )
         }
         BalanceRow(uiState, onAccountColor)
+        uiState.description?.let {
+            Text(
+                text = uiState.description,
+                fontSize = 18.sp,
+                color = onAccountColor,
+                fontWeight = FontWeight.Light,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
 @Composable
-private fun BalanceRow(uiState: AccountUiState, onAccountColor: Color) {
+private fun BalanceRow(uiState: AccountDetailsUiState, onAccountColor: Color) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -114,14 +119,16 @@ private fun BalanceRow(uiState: AccountUiState, onAccountColor: Color) {
             Text(
                 text = uiState.balance,
                 color = onAccountColor,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Normal
+                fontSize = 30.sp,
+                letterSpacing = 1.sp,
+                fontWeight = FontWeight.Bold
             )
             uiState.currency?.let {
                 Text(
                     text = uiState.currency,
                     color = onAccountColor,
-                    fontSize = 20.sp,
+                    fontSize = 22.sp,
+                    lineHeight = 32.sp,
                     fontWeight = FontWeight.Normal
                 )
             }
@@ -132,16 +139,16 @@ private fun BalanceRow(uiState: AccountUiState, onAccountColor: Color) {
 
 @Preview(device = Devices.PIXEL_7_PRO)
 @Composable
-private fun AccountComponentPreview() {
+private fun AccountDetailsComponentPreview() {
     PreviewContainer(appTheme = AppTheme.Light) {
-        AccountComponent(
-            uiState = AccountUiState(
+        AccountDetailsComponent(
+            uiState = AccountDetailsUiState(
                 number = "1234567890",
                 name = "Sample Account",
                 balance = "1000.00",
-                currency = "CZK"
-            ),
-            onClick = {}
+                currency = "CZK",
+                description = "This is a sample account description for preview purposes.",
+            )
         )
     }
 }

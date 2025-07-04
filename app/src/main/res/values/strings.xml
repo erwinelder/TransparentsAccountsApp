@@ -4,10 +4,15 @@
 
     <!-- General -->
     <string name="general_fetch_error_title">Oops!</string>
+    <string name="try_again">Try again</string>
+    <string name="back">Back</string>
 
     <!-- Account -->
     <string name="accounts_loader_message">Loading accounts…</string>
+    <string name="account_loader_message">Loading account details…</string>
     <string name="accounts_fetch_error_message">An error occurred while fetching accounts.</string>
-    <string name="accounts_fetch_error_button">Try again</string>
+    <string name="account_fetch_error_message">An error occurred while fetching account details.</string>
+    <string name="account_not_found_error_title">Account not found</string>
+    <string name="balance">Balance</string>
 
 </resources>

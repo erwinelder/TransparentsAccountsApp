@@ -2,7 +2,7 @@ package com.transparentaccountsapp.account.data.model
 
 import kotlinx.datetime.LocalDateTime
 
-data class AccountDataModel(
+data class AccountDetailsDataModel(
     val accountNumber: String,
     val bankCode: String,
     val transparencyFrom: LocalDateTime,
@@ -13,5 +13,6 @@ data class AccountDataModel(
     val currency: String?,
     val name: String,
     val description: String?,
-    val iban: String
+    val iban: String,
+    val statements: List<String>
 )

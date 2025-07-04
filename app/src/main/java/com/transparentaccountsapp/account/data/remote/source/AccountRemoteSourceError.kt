@@ -1,5 +1,6 @@
 package com.transparentaccountsapp.account.data.remote.source
 
+import com.transparentaccountsapp.account.data.remote.model.AccountDetailsDto
 import com.transparentaccountsapp.account.data.remote.model.AccountDto
 import com.transparentaccountsapp.account.domain.error.AccountError
 import com.transparentaccountsapp.requestHandling.domain.model.ResultData
@@ -10,6 +11,11 @@ class AccountRemoteSourceError : AccountRemoteSource {
     override suspend fun getAllAccounts(): ResultData<List<AccountDto>, AccountError> {
         delay(500)
         return ResultData.Error(error = AccountError.AccountsFetchError)
+    }
+
+    override suspend fun getAccountDetails(accountNumber: String): ResultData<AccountDetailsDto, AccountError> {
+        delay(500)
+        return ResultData.Error(error = AccountError.AccountFetchError)
     }
 
 }

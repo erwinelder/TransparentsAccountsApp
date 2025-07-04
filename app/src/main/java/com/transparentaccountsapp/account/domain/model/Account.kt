@@ -12,5 +12,6 @@ data class Account(
     val balance: Double,
     val currency: String?,
     val name: String,
+    val description: String?,
     val iban: String
 )

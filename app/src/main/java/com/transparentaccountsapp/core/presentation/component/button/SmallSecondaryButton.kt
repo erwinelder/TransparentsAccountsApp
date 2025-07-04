@@ -1,4 +1,4 @@
-package com.transparentaccountsapp.core.presentation.button
+package com.transparentaccountsapp.core.presentation.component.button
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background

@@ -10,7 +10,17 @@ fun AccountError.toResultState(): ResultState.ErrorState {
         AccountError.AccountsFetchError -> ResultState.ErrorState(
             titleRes = R.string.general_fetch_error_title,
             messageRes = R.string.accounts_fetch_error_message,
-            buttonTextRes = R.string.accounts_fetch_error_button
+            buttonTextRes = R.string.try_again
+        )
+        AccountError.AccountFetchError -> ResultState.ErrorState(
+            titleRes = R.string.general_fetch_error_title,
+            messageRes = R.string.account_fetch_error_message,
+            buttonTextRes = R.string.try_again
+        )
+        AccountError.AccountNotFoundError -> ResultState.ErrorState(
+            titleRes = R.string.account_not_found_error_title,
+            messageRes = null,
+            buttonTextRes = null
         )
     }
 }

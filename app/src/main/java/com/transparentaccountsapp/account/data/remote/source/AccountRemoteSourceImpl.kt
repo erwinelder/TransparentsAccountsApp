@@ -2,6 +2,7 @@ package com.transparentaccountsapp.account.data.remote.source
 
 import android.util.Log
 import com.transparentaccountsapp.BuildConfig
+import com.transparentaccountsapp.account.data.remote.model.AccountDetailsDto
 import com.transparentaccountsapp.account.data.remote.model.AccountDto
 import com.transparentaccountsapp.account.data.remote.model.AccountsResponseDto
 import com.transparentaccountsapp.account.domain.error.AccountError
@@ -29,17 +30,51 @@ class AccountRemoteSourceImpl : AccountRemoteSource {
                 contentType(ContentType.Application.Json)
             }
 
-            if (response.status == HttpStatusCode.OK) {
-                val response = json.decodeFromString<AccountsResponseDto>(
-                    string = response.bodyAsText()
-                )
-                ResultData.Success(data = response.accounts)
-            } else {
-                ResultData.Error(error = AccountError.AccountsFetchError)
+            when (response.status) {
+                HttpStatusCode.OK -> {
+                    val response = json.decodeFromString<AccountsResponseDto>(
+                        string = response.bodyAsText()
+                    )
+                    ResultData.Success(data = response.accounts)
+                }
+                else -> {
+                    ResultData.Error(error = AccountError.AccountsFetchError)
+                }
             }
         } catch (e: Exception) {
             Log.e("AccountRemoteSourceImpl", "Error fetching accounts: ${e.message}")
             ResultData.Error(error = AccountError.AccountsFetchError)
+        }
+    }
+
+    override suspend fun getAccountDetails(
+        accountNumber: String
+    ): ResultData<AccountDetailsDto, AccountError> {
+        return try {
+            val response = httpClient.get(
+                urlString = "$apiUrl/$accountNumber"
+            ) {
+                header("WEB-API-key", apiKey)
+                contentType(ContentType.Application.Json)
+            }
+
+            when (response.status) {
+                HttpStatusCode.OK -> {
+                    val response = json.decodeFromString<AccountDetailsDto>(
+                        string = response.bodyAsText()
+                    )
+                    ResultData.Success(data = response)
+                }
+                HttpStatusCode.NotFound -> {
+                    ResultData.Error(error = AccountError.AccountNotFoundError)
+                }
+                else -> {
+                    ResultData.Error(error = AccountError.AccountFetchError)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("AccountRemoteSourceImpl", "Error fetching account details: ${e.message}")
+            ResultData.Error(error = AccountError.AccountFetchError)
         }
     }
 
