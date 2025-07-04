@@ -1,4 +1,4 @@
-package com.transparentaccountsapp.core.presentation.other
+package com.transparentaccountsapp.core.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
