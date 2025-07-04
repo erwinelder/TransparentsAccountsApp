@@ -22,5 +22,10 @@ fun AccountError.toResultState(): ResultState.ErrorState {
             messageRes = null,
             buttonTextRes = null
         )
+        AccountError.AccountTransactionsFetchError -> ResultState.ErrorState(
+            titleRes = R.string.general_fetch_error_title,
+            messageRes = R.string.account_transactions_fetch_error_message,
+            buttonTextRes = R.string.try_again
+        )
     }
 }

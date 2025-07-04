@@ -13,6 +13,9 @@
     <string name="accounts_fetch_error_message">An error occurred while fetching accounts.</string>
     <string name="account_fetch_error_message">An error occurred while fetching account details.</string>
     <string name="account_not_found_error_title">Account not found</string>
+    <string name="account_transactions_fetch_error_message">An error occurred while fetching account transactions.</string>
     <string name="balance">Balance</string>
+    <string name="from_placeholder">From: %s</string>
+    <string name="description_placeholder">Description: %s</string>
 
 </resources>

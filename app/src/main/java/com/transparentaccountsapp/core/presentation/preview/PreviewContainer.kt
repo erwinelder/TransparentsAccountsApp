@@ -1,7 +1,6 @@
 package com.transparentaccountsapp.core.presentation.preview
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -10,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.transparentaccountsapp.core.domain.AppTheme
-import com.transparentaccountsapp.core.presentation.theme.AppColors
+import com.transparentaccountsapp.core.presentation.component.other.AppBackground
 import com.transparentaccountsapp.core.presentation.theme.TransparentAccountsAppTheme
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -28,11 +27,7 @@ fun PreviewContainer(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = AppColors.background)
-                )
+                AppBackground()
                 content()
             }
         }

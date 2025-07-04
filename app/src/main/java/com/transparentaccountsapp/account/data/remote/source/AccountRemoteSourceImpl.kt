@@ -5,6 +5,8 @@ import com.transparentaccountsapp.BuildConfig
 import com.transparentaccountsapp.account.data.remote.model.AccountDetailsDto
 import com.transparentaccountsapp.account.data.remote.model.AccountDto
 import com.transparentaccountsapp.account.data.remote.model.AccountsResponseDto
+import com.transparentaccountsapp.account.data.remote.model.transaction.AccountTransactionsResponseDto
+import com.transparentaccountsapp.account.data.remote.model.transaction.TransactionDto
 import com.transparentaccountsapp.account.domain.error.AccountError
 import com.transparentaccountsapp.core.data.remote.httpClient
 import com.transparentaccountsapp.core.data.remote.json
@@ -75,6 +77,37 @@ class AccountRemoteSourceImpl : AccountRemoteSource {
         } catch (e: Exception) {
             Log.e("AccountRemoteSourceImpl", "Error fetching account details: ${e.message}")
             ResultData.Error(error = AccountError.AccountFetchError)
+        }
+    }
+
+    override suspend fun getAccountTransactions(
+        accountNumber: String
+    ): ResultData<List<TransactionDto>, AccountError> {
+        return try {
+            val response = httpClient.get(
+                urlString = "$apiUrl/$accountNumber/transactions"
+            ) {
+                header("WEB-API-key", apiKey)
+                contentType(ContentType.Application.Json)
+            }
+
+            when (response.status) {
+                HttpStatusCode.OK -> {
+                    val response = json.decodeFromString<AccountTransactionsResponseDto>(
+                        string = response.bodyAsText()
+                    )
+                    ResultData.Success(data = response.transactions)
+                }
+                HttpStatusCode.NotFound -> {
+                    ResultData.Error(error = AccountError.AccountNotFoundError)
+                }
+                else -> {
+                    ResultData.Error(error = AccountError.AccountTransactionsFetchError)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("AccountRemoteSourceImpl", "Error fetching account transactions: ${e.message}")
+            ResultData.Error(error = AccountError.AccountTransactionsFetchError)
         }
     }
 

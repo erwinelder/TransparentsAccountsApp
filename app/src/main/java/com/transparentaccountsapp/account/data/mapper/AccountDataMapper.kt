@@ -39,3 +39,4 @@ fun AccountDetailsDto.toDataModel(): AccountDetailsDataModel {
         statements = statements
     )
 }
+

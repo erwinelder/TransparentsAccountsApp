@@ -6,6 +6,8 @@ import com.transparentaccountsapp.account.data.repository.AccountRepository
 import com.transparentaccountsapp.account.data.repository.AccountRepositoryImpl
 import com.transparentaccountsapp.account.domain.usecase.GetAccountDetailsUseCase
 import com.transparentaccountsapp.account.domain.usecase.GetAccountDetailsUseCaseImpl
+import com.transparentaccountsapp.account.domain.usecase.GetAccountTransactionUseCase
+import com.transparentaccountsapp.account.domain.usecase.GetAccountTransactionUseCaseImpl
 import com.transparentaccountsapp.account.domain.usecase.GetAllAccountsUseCase
 import com.transparentaccountsapp.account.domain.usecase.GetAllAccountsUseCaseImpl
 import com.transparentaccountsapp.account.presentation.viewmodel.AccountDetailsViewModel
@@ -38,6 +40,10 @@ val accountModule = module {
         GetAccountDetailsUseCaseImpl(accountRepository = get())
     }
 
+    single<GetAccountTransactionUseCase> {
+        GetAccountTransactionUseCaseImpl(accountRepository = get())
+    }
+
     /* View Models */
 
     viewModel {
@@ -47,7 +53,8 @@ val accountModule = module {
     viewModel { params ->
         AccountDetailsViewModel(
             accountNumber = params.get(),
-            getAccountDetailsUseCase = get()
+            getAccountDetailsUseCase = get(),
+            getAccountTransactionUseCase = get()
         )
     }
 
