@@ -1,4 +1,4 @@
-package com.transparentaccountsapp.core.presentation.screenContainers
+package com.transparentaccountsapp.core.presentation.screenContainer
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Scaffold

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.transparentaccountsapp.core.presentation.navigation.AppNavHost
-import com.transparentaccountsapp.core.presentation.screenContainers.MainScaffold
+import com.transparentaccountsapp.core.presentation.screenContainer.MainScaffold
 import com.transparentaccountsapp.core.presentation.theme.AppColors
 import com.transparentaccountsapp.core.presentation.theme.TransparentAccountsAppTheme
 

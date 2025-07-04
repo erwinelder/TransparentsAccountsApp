@@ -1,6 +1,7 @@
 package com.transparentaccountsapp.di
 
 import com.transparentaccountsapp.account.data.remote.source.AccountRemoteSource
+import com.transparentaccountsapp.account.data.remote.source.AccountRemoteSourceError
 import com.transparentaccountsapp.account.data.remote.source.AccountRemoteSourceImpl
 import com.transparentaccountsapp.account.data.repository.AccountRepository
 import com.transparentaccountsapp.account.data.repository.AccountRepositoryImpl
@@ -16,6 +17,7 @@ val accountModule = module {
 
     single<AccountRemoteSource> {
         AccountRemoteSourceImpl()
+//        AccountRemoteSourceError() // Uncomment to simulate error
     }
 
     /* Repository */

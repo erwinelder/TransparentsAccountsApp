@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Transparent Accounts app</string>
+
+    <string name="app_name">Transparent Accounts App</string>
+
+    <!-- General -->
+    <string name="general_fetch_error_title">Oops!</string>
+
+    <!-- Account -->
+    <string name="accounts_loader_message">Loading accounts…</string>
+    <string name="accounts_fetch_error_message">An error occurred while fetching accounts.</string>
+    <string name="accounts_fetch_error_button">Try again</string>
+
 </resources>

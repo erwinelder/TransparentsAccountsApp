@@ -15,8 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.transparentaccountsapp.account.presentation.component.AccountComponent
 import com.transparentaccountsapp.account.presentation.model.AccountUiState
+import com.transparentaccountsapp.account.presentation.viewmodel.AccountsRequestStateType
 import com.transparentaccountsapp.account.presentation.viewmodel.AccountsViewModel
 import com.transparentaccountsapp.core.presentation.preview.PreviewContainer
+import com.transparentaccountsapp.requestHandling.presentation.model.RequestState
+import com.transparentaccountsapp.requestHandling.presentation.model.ResultState
+import com.transparentaccountsapp.requestHandling.presentation.screenContainer.AnimatedScreenWithRequestState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -25,7 +29,7 @@ fun AccountsScreenWrapper(
 ) {
     val viewModel = koinViewModel<AccountsViewModel>()
 
-    val accounts by viewModel.accounts.collectAsStateWithLifecycle()
+    val requestState by viewModel.requestState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.fetchAccounts()
@@ -33,24 +37,32 @@ fun AccountsScreenWrapper(
 
     AccountsScreen(
         screenPadding = screenPadding,
-        accounts = accounts
+        requestDataState = requestState,
+        errorAction = viewModel::fetchAccounts
     )
 }
 
 @Composable
 fun AccountsScreen(
     screenPadding: PaddingValues = PaddingValues(),
-    accounts: List<AccountUiState>
+    requestDataState: AccountsRequestStateType,
+    errorAction: () -> Unit
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .padding(screenPadding)
-    ) {
-        items(items = accounts) { account ->
-            AccountComponent(
-                uiState = account
-            )
+    AnimatedScreenWithRequestState(
+        screenPadding = screenPadding,
+        requestDataState = requestDataState,
+        errorAction = errorAction
+    ) { accounts ->
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .padding(screenPadding)
+        ) {
+            items(items = accounts) { account ->
+                AccountComponent(
+                    uiState = account
+                )
+            }
         }
     }
 }
@@ -59,12 +71,19 @@ fun AccountsScreen(
 @Preview(device = PIXEL_7_PRO)
 @Composable
 fun AccountsScreenPreview() {
-    PreviewContainer {
-        AccountsScreen(
-            accounts = listOf(
+    val requestDataState: AccountsRequestStateType = RequestState.Result(
+        resultState = ResultState.DataState(
+            data = listOf(
                 AccountUiState(),
                 AccountUiState(),
             )
+        )
+    )
+
+    PreviewContainer {
+        AccountsScreen(
+            requestDataState = requestDataState,
+            errorAction = {}
         )
     }
 }

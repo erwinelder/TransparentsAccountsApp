@@ -4,8 +4,10 @@ import android.util.Log
 import com.transparentaccountsapp.BuildConfig
 import com.transparentaccountsapp.account.data.remote.model.AccountDto
 import com.transparentaccountsapp.account.data.remote.model.AccountsResponseDto
+import com.transparentaccountsapp.account.domain.error.AccountError
 import com.transparentaccountsapp.core.data.remote.httpClient
 import com.transparentaccountsapp.core.data.remote.json
+import com.transparentaccountsapp.requestHandling.domain.model.ResultData
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.statement.bodyAsText
@@ -18,7 +20,7 @@ class AccountRemoteSourceImpl : AccountRemoteSource {
     val apiUrl = BuildConfig.API_URL
     val apiKey = BuildConfig.API_KEY
 
-    override suspend fun getAllAccounts(): List<AccountDto> {
+    override suspend fun getAllAccounts(): ResultData<List<AccountDto>, AccountError> {
         return try {
             val response = httpClient.get(
                 urlString = "$apiUrl/"
@@ -28,13 +30,16 @@ class AccountRemoteSourceImpl : AccountRemoteSource {
             }
 
             if (response.status == HttpStatusCode.OK) {
-                json.decodeFromString<AccountsResponseDto>(string = response.bodyAsText()).accounts
+                val response = json.decodeFromString<AccountsResponseDto>(
+                    string = response.bodyAsText()
+                )
+                ResultData.Success(data = response.accounts)
             } else {
-                emptyList()
+                ResultData.Error(error = AccountError.AccountsFetchError)
             }
         } catch (e: Exception) {
             Log.e("AccountRemoteSourceImpl", "Error fetching accounts: ${e.message}")
-            emptyList()
+            ResultData.Error(error = AccountError.AccountsFetchError)
         }
     }
 
